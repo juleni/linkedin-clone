@@ -31,6 +31,22 @@ const AreaLeft = (props) => {
           </span>
         </Item>
       </ArtCard>
+      <CommunityCard>
+        <a>
+          <span>Groups</span>
+        </a>
+        <a>
+          <span>
+            Events <img src="/images/plus-icon.svg" />
+          </span>
+        </a>
+        <a>
+          <span>Follow Hashtags</span>
+        </a>
+        <a>
+          <span>Discover more</span>
+        </a>
+      </CommunityCard>
     </Container>
   );
 };
@@ -148,6 +164,41 @@ const Item = styled.a`
   }
   &:hover {
     background-color: rgba(0, 0, 0, 0.08);
+  }
+`;
+
+const CommunityCard = styled(ArtCard)`
+  padding: 8px 0 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  a {
+    color: black;
+    padding: 4px 12px;
+    font-size: 12px;
+    text-decoration: none;
+
+    &:hover {
+      /* background-color: rgba(0, 0, 0, 0.08); */
+      color: #0a66c2;
+    }
+
+    span {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &:last-child {
+      color: rgba(1, 1, 1, 0.6);
+      text-decoration: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
+      padding: 12px;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+      }
+    }
   }
 `;
 
