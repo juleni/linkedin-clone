@@ -181,6 +181,7 @@ const CommunityCard = styled(ArtCard)`
     &:hover {
       /* background-color: rgba(0, 0, 0, 0.08); */
       color: #0a66c2;
+      text-decoration: underline;
     }
 
     span {
