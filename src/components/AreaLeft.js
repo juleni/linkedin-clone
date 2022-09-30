@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 
 const AreaLeft = (props) => {
@@ -9,7 +10,9 @@ const AreaLeft = (props) => {
           <CardBackground />
           <a>
             <Photo />
-            <Link>Welcome, there!</Link>
+            <Link>
+              Welcome, {props.user ? props.user.displayName : "there"}!
+            </Link>
           </a>
           <a>
             <AddPhotoText>Add a photo</AddPhotoText>
@@ -50,6 +53,14 @@ const AreaLeft = (props) => {
     </Container>
   );
 };
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.userState.user,
+  };
+};
+
+/* ----------- STYLED COMPONENTS  ----------- */
 
 const Container = styled.div`
   grid-area: area-left;
@@ -203,4 +214,4 @@ const CommunityCard = styled(ArtCard)`
   }
 `;
 
-export default AreaLeft;
+export default connect(mapStateToProps)(AreaLeft);
