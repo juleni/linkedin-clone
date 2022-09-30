@@ -1,12 +1,16 @@
 import React from "react";
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import AreaLeft from "./AreaLeft";
 import AreaMiddle from "./AreaMiddle";
 import AreaRight from "./AreaRight";
 
 const Home = (props) => {
+  const navigate = useNavigate();
   return (
     <Container>
+      {!props.user && navigate("/")}
       <Section>
         <h5>
           <a>Hiring in a hurry?</a>
@@ -24,6 +28,14 @@ const Home = (props) => {
     </Container>
   );
 };
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.userState.user,
+  };
+};
+
+/* ----------- STYLED COMPONENTS  ----------- */
 
 const Container = styled.div`
   padding-top: 52px;
@@ -73,4 +85,4 @@ const Layout = styled.div`
   }
 `;
 
-export default Home;
+export default connect(mapStateToProps)(Home);

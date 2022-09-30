@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth, provider } from "../firebase";
 import { SET_USER } from "./actionType";
 
@@ -27,7 +27,39 @@ export function signInAPI() {
         const email = error.customData.email;
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
-        alert("ERR: " + error.message + "\nCRED: " + credential);
+        alert(
+          "ERROR: " +
+            errorCode +
+            "\n" +
+            errorMessage +
+            "\nEmail: " +
+            email +
+            "\nCredentials: " +
+            credential
+        );
+      });
+  };
+}
+
+export function getUserAuth() {
+  return (dispatch) => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        dispatch(setUser(user));
+      }
+    });
+  };
+}
+
+export function signOutAPI() {
+  return (dispatch) => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        dispatch(setUser(null));
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
   };
 }
