@@ -1,30 +1,40 @@
 import React from "react";
 import styled from "styled-components";
+import PostModal from "./PostModal";
+import { useState } from "react";
 
 const AreaMiddle = (props) => {
+  const [showModal, setShowModal] = useState(false);
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (e.target != e.currentTarget) {
+      return;
+    }
+    setShowModal(!showModal);
+  };
   return (
     <Container>
       <ShareBox>
         Share
         <div>
-          <img src="/images/user.svg" />
-          <button>Start a post</button>
+          <img src="/images/user.svg" alt="" />
+          <button onClick={handleClick}>Start a post</button>
         </div>
         <div>
           <button>
-            <img src="/images/photo-icon.png" />
+            <img src="/images/photo-icon.png" alt="" />
             <span>Photo</span>
           </button>
           <button>
-            <img src="/images/video-icon.png" />
+            <img src="/images/video-icon.png" alt="" />
             <span>Video</span>
           </button>
           <button>
-            <img src="/images/event-icon.png" />
+            <img src="/images/event-icon.png" alt="" />
             <span>Event</span>
           </button>
           <button>
-            <img src="/images/article-icon.png" />
+            <img src="/images/article-icon.png" alt="" />
             <span>Write article</span>
           </button>
         </div>
@@ -33,7 +43,7 @@ const AreaMiddle = (props) => {
         <Article>
           <SharedActor>
             <a>
-              <img src="/images/user.svg" />
+              <img src="/images/user.svg" alt="" />
               <div>
                 <span>Title</span>
                 <span>Info</span>
@@ -41,20 +51,26 @@ const AreaMiddle = (props) => {
               </div>
             </a>
             <button>
-              <img src="/images/ellipsis-icon.svg" />
+              <img src="/images/ellipsis-icon.svg" alt="" />
             </button>
           </SharedActor>
           <Description>Description</Description>
           <SharedImg>
             <a>
-              <img src="/images/shared-img1.jpg" />
+              <img src="/images/shared-img1.jpg" alt="" />
             </a>
           </SharedImg>
           <SocialCounts>
             <li>
               <button>
-                <img src="https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb" />
-                <img src="https://static-exp1.licdn.com/sc/h/5thsbmikm6a8uov24ygwd914f" />
+                <img
+                  src="https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb"
+                  alt=""
+                />
+                <img
+                  src="https://static-exp1.licdn.com/sc/h/5thsbmikm6a8uov24ygwd914f"
+                  alt=""
+                />
                 <span>75</span>
               </button>
             </li>
@@ -64,27 +80,30 @@ const AreaMiddle = (props) => {
           </SocialCounts>
           <SocialActions>
             <button>
-              <img src="/images/like-icon.svg" />
+              <img src="/images/like-icon.svg" alt="" />
               <span>Like</span>
             </button>
             <button>
-              <img src="/images/comment-icon.svg" />
+              <img src="/images/comment-icon.svg" alt="" />
               <span>Comments</span>
             </button>
             <button>
-              <img src="/images/share-icon.svg" />
+              <img src="/images/share-icon.svg" alt="" />
               <span>Share</span>
             </button>
             <button>
-              <img src="/images/send-icon.svg" />
+              <img src="/images/send-icon.svg" alt="" />
               <span>Send</span>
             </button>
           </SocialActions>
         </Article>
       </div>
+      <PostModal showModal={showModal} handleClick={handleClick} />
     </Container>
   );
 };
+
+/* ----------- STYLED COMPONENTS  ----------- */
 
 const Container = styled.div`
   grid-area: area-middle;
