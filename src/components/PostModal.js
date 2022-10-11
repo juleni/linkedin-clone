@@ -52,7 +52,7 @@ const PostModal = (props) => {
                 </AssetButton>
               </ShareComment>
 
-              <PostButton>Post</PostButton>
+              <PostButton disabled={editorText === ""}>Post</PostButton>
             </ShareCreation>
           </Content>
         </Container>
@@ -180,15 +180,16 @@ const PostButton = styled.button`
   border-radius: 20px;
   padding-left: 16px;
   padding-right: 16px;
-  background: #0a66c2;
-  color: white;
+  background: ${(props) => (props.disabled ? "rgba(0, 0, 0, 0.4)" : "#0a66c2")};
+  color: ${(props) => (props.disabled ? "rgba(1, 1, 1, 0.6)" : "white")};
   &:hover {
-    background: #004182;
+    background: ${(props) =>
+      props.disabled ? "rgba(0, 0, 0, 0.5)" : "#004182"};
   }
 `;
 
 const Editor = styled.div`
-  padding: 12px 24px;
+  padding: 12px 10px 0px 5px;
   textarea {
     width: 100%;
     min-height: 100px;
