@@ -3,10 +3,20 @@ import { useState } from "react";
 
 const PostModal = (props) => {
   const [editorText, setEditorText] = useState("");
+  const [shareImage, setShareImage] = useState("");
+
   const reset = (e) => {
     setEditorText("");
     props.handleClick(e);
   };
+
+  const handleChange = (e) => {
+    const image = e.target.files[0];
+    image === "" || image === undefined
+      ? alert(`Not an image, the file is a ${typeof image}`)
+      : setShareImage(image);
+  };
+
   return (
     <>
       {props.showModal && (
@@ -31,7 +41,23 @@ const PostModal = (props) => {
                   onChange={(e) => setEditorText(e.target.value)}
                   placeholder="What do you want to talk about?"
                   autoFocus={true}
-                ></textarea>
+                />
+                <UploadImage>
+                  <input
+                    type="file"
+                    accept="image/gif, image/jpeg, image/png"
+                    name="image"
+                    id="file"
+                    style={{ display: "none" }}
+                    onChange={handleChange}
+                  />
+                  <p>
+                    <label htmlFor="file" style={{}}>
+                      Select an image to share.
+                    </label>
+                  </p>
+                  {shareImage && <img src={URL.createObjectURL(shareImage)} />}
+                </UploadImage>
               </Editor>
             </SharedContent>
 
@@ -201,6 +227,13 @@ const Editor = styled.div`
     height: 35px;
     font-size: 16px;
     margin-bottom: 20px;
+  }
+`;
+
+const UploadImage = styled.div`
+  text-align: center;
+  img {
+    width: 100%;
   }
 `;
 
