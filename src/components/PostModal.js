@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-/* import ReactPlayer from "react-player"; */
+import ReactPlayer from "react-player";
 
 const PostModal = (props) => {
   const [editorText, setEditorText] = useState("");
@@ -66,6 +66,9 @@ const PostModal = (props) => {
                       value={videoLink}
                       onChange={(e) => setVideoLink(e.target.value)}
                     />
+                    {videoLink && (
+                      <ReactPlayer width={"100%"} url={videoLink} />
+                    )}
                   </>
                 </UploadImage>
               </Editor>
