@@ -101,13 +101,12 @@ export function postArticleAPI(payload) {
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           //const downloadURL = await upload.snapshot.ref.getDownloadURL();
           const downloadURL = await getDownloadURL(upload.snapshot.ref);
-          console.log("File available at", downloadURL);
           // Add a new document with a generated id.
           const docRef = await addDoc(collection(db, "articles"), {
             actor: {
               description: payload.user.email,
               title: payload.user.displayName,
-              //date: payload.timestamp,
+              date: payload.timestamp,
               image: payload.user.photoURL,
             },
             video: payload.video,

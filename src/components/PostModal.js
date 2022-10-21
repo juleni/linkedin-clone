@@ -1,3 +1,4 @@
+import { serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
 import ReactPlayer from "react-player";
 import { connect } from "react-redux";
@@ -34,7 +35,7 @@ const PostModal = (props) => {
       video: videoLink,
       user: props.user,
       description: editorText,
-      /*timestamp: db.firestore.Timestamp.now(),*/
+      timestamp: serverTimestamp(),
     };
     props.postArticle(payload);
     reset(e);
