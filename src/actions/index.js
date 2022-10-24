@@ -2,11 +2,16 @@ import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import db, { auth, provider, storage } from "../firebase";
-import { SET_USER } from "./actionType";
+import { SET_LOADING_STATUS, SET_USER } from "./actionType";
 
 export const setUser = (payload) => ({
   type: SET_USER,
   user: payload,
+});
+
+export const setLoading = (status) => ({
+  type: SET_LOADING_STATUS,
+  status: status,
 });
 
 export function signInAPI() {
@@ -86,6 +91,7 @@ export function postArticleAPI(payload) {
   }
 
   return (dispatch) => {
+    dispatch(setLoading(true));
     if (payload.image != "") {
       // Create a reference to 'images/mountains.jpg'
       const storageRef = ref(storage, `images/${payload.image.name}`);
@@ -122,11 +128,15 @@ export function postArticleAPI(payload) {
           // Add a new document with a generated id.
           docRef = await addDBRecord(payload, downloadURL);
           console.log("Document written with ID: ", docRef.id);
+          // stop spinning image - after loading process
+          dispatch(setLoading(false));
         }
       );
     } else {
       addDBRecord(payload, "").then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
+        // stop spinning image - after loading process
+        dispatch(setLoading(false));
       });
     }
   };

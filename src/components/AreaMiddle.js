@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import PostModal from "./PostModal";
-import { useState } from "react";
 
 const AreaMiddle = (props) => {
   const [showModal, setShowModal] = useState(false);
@@ -15,11 +15,17 @@ const AreaMiddle = (props) => {
   return (
     <Container>
       <ShareBox>
-        Share
         <div>
-          <img src="/images/user.svg" alt="" />
-          <button onClick={handleClick}>Start a post</button>
+          {props.user && props.user.photoURL ? (
+            <img src={props.user.photoURL} alt="" />
+          ) : (
+            <img src="/images/user.svg" alt="" />
+          )}
+          <button onClick={handleClick} disabled={props.loading ? true : false}>
+            Start a post
+          </button>
         </div>
+
         <div>
           <button>
             <img src="/images/photo-icon.png" alt="" />
@@ -39,7 +45,8 @@ const AreaMiddle = (props) => {
           </button>
         </div>
       </ShareBox>
-      <div>
+      <Content>
+        {props.loading && <img src="/images/loading-spinner.svg" alt="" />}
         <Article>
           <SharedActor>
             <a>
@@ -97,7 +104,7 @@ const AreaMiddle = (props) => {
             </button>
           </SocialActions>
         </Article>
-      </div>
+      </Content>
       <PostModal showModal={showModal} handleClick={handleClick} />
     </Container>
   );
@@ -302,4 +309,20 @@ const SocialActions = styled.div`
   }
 `;
 
-export default AreaMiddle;
+const Content = styled.div`
+  text-align: center;
+  & > img {
+    width: 100px;
+  }
+`;
+
+const mapStateToProps = (state) => {
+  return {
+    loading: state.articleState.loading,
+    user: state.userState.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AreaMiddle);
