@@ -19,6 +19,17 @@ const AreaMiddle = (props) => {
     setShowModal(!showModal);
   };
 
+  function convertDate(time) {
+    //time should be server timestamp seconds only
+    const date = new Date(time.toDate());
+    const localDate = date
+      .toLocaleDateString()
+      .replaceAll("/", "-")
+      .replaceAll(" ", "");
+    const localTime = date.toLocaleTimeString();
+    return localDate + ", " + localTime;
+  }
+
   return (
     <>
       {
@@ -73,19 +84,21 @@ const AreaMiddle = (props) => {
                         <div>
                           <span>{article.actor.title}</span>
                           <span>Info</span>
-                          <span>Date</span>
+                          <span>{convertDate(article.actor.date)}</span>
                         </div>
                       </a>
                       <button>
                         <img src="/images/ellipsis-icon.svg" alt="" />
                       </button>
                     </SharedActor>
-                    <Description>{article.comment}</Description>
-                    <SharedImg>
-                      <a>
-                        <img src={article.sharedImg} alt="" />
-                      </a>
-                    </SharedImg>
+                    <Description>{article.description}</Description>
+                    {article.sharedImg.length > 0 && (
+                      <SharedImg>
+                        <a>
+                          <img src={article.sharedImg} alt="" />
+                        </a>
+                      </SharedImg>
+                    )}
                     <SocialCounts>
                       <li>
                         <button>
