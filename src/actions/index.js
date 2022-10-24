@@ -1,12 +1,23 @@
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import db, { auth, provider, storage } from "../firebase";
-import { SET_LOADING_STATUS, SET_USER } from "./actionType";
+import { GET_ARTICLES, SET_LOADING_STATUS, SET_USER } from "./actionType";
 
 export const setUser = (payload) => ({
   type: SET_USER,
   user: payload,
+});
+
+export const getArticles = (payload) => ({
+  type: GET_ARTICLES,
+  articles: payload,
 });
 
 export const setLoading = (status) => ({
@@ -84,7 +95,7 @@ export function postArticleAPI(payload) {
       },
       video: payload.video,
       sharedImg: downloadURL,
-      comment: 0,
+      comment: "This is sample comment",
       description: payload.description,
     });
     return docRef;
@@ -139,5 +150,33 @@ export function postArticleAPI(payload) {
         dispatch(setLoading(false));
       });
     }
+  };
+}
+
+export function getArticlesAPI() {
+  async function getArticlesFromDB() {
+    let articles = new Array();
+
+    const q = query(collection(db, "articles"), orderBy("description"));
+    await getDocs(q).then((snapshot) => {
+      snapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        // console.log(doc.id, " => ", doc.data());
+        // console.log(payload);
+        articles.push(doc.data());
+      });
+    });
+    return articles;
+  }
+
+  return (dispatch) => {
+    /*
+
+    */
+    getArticlesFromDB().then((articleFromDB) => {
+      console.log("articlesFromDB");
+      console.log(articleFromDB);
+      dispatch(getArticles(articleFromDB));
+    });
   };
 }
