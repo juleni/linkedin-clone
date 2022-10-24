@@ -67,6 +67,24 @@ export function signOutAPI() {
 }
 
 export function postArticleAPI(payload) {
+  let docRef = "";
+  async function addDBRecord(payload, downloadURL) {
+    // Add a new document with a generated id.
+    docRef = await addDoc(collection(db, "articles"), {
+      actor: {
+        description: payload.user.email,
+        title: payload.user.displayName,
+        date: payload.timestamp,
+        image: payload.user.photoURL,
+      },
+      video: payload.video,
+      sharedImg: downloadURL,
+      comment: 0,
+      description: payload.description,
+    });
+    return docRef;
+  }
+
   return (dispatch) => {
     if (payload.image != "") {
       // Create a reference to 'images/mountains.jpg'
@@ -102,21 +120,14 @@ export function postArticleAPI(payload) {
           //const downloadURL = await upload.snapshot.ref.getDownloadURL();
           const downloadURL = await getDownloadURL(upload.snapshot.ref);
           // Add a new document with a generated id.
-          const docRef = await addDoc(collection(db, "articles"), {
-            actor: {
-              description: payload.user.email,
-              title: payload.user.displayName,
-              date: payload.timestamp,
-              image: payload.user.photoURL,
-            },
-            video: payload.video,
-            sharedImg: downloadURL,
-            comment: 0,
-            description: payload.description,
-          });
+          docRef = await addDBRecord(payload, downloadURL);
           console.log("Document written with ID: ", docRef.id);
         }
       );
+    } else {
+      addDBRecord(payload, "").then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+      });
     }
   };
 }
