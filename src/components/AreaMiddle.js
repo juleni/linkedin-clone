@@ -13,7 +13,7 @@ const AreaMiddle = (props) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    if (e.target != e.currentTarget) {
+    if (e.target !== e.currentTarget) {
       return;
     }
     setShowModal(!showModal);

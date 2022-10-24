@@ -103,7 +103,7 @@ export function postArticleAPI(payload) {
 
   return (dispatch) => {
     dispatch(setLoading(true));
-    if (payload.image != "") {
+    if (payload.image !== "") {
       // Create a reference to 'images/mountains.jpg'
       const storageRef = ref(storage, `images/${payload.image.name}`);
       const upload = uploadBytesResumable(storageRef, payload.image);
@@ -156,7 +156,7 @@ export function postArticleAPI(payload) {
 
 export function getArticlesAPI() {
   async function getArticlesFromDB() {
-    let articles = new Array();
+    let articles = [];
 
     const q = query(collection(db, "articles"), orderBy("description"));
     await getDocs(q).then((snapshot) => {
