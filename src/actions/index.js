@@ -150,6 +150,7 @@ export function postArticleAPI(payload) {
         dispatch(setLoading(false));
       });
     }
+    window.location.reload(false);
   };
 }
 
