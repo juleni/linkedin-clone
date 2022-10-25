@@ -95,7 +95,7 @@ export function postArticleAPI(payload) {
       },
       video: payload.video,
       sharedImg: downloadURL,
-      comment: "This is sample comment",
+      comments: 0,
       description: payload.description,
     });
     return docRef;
