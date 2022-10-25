@@ -141,6 +141,7 @@ export function postArticleAPI(payload) {
           console.log("Document written with ID: ", docRef.id);
           // stop spinning image - after loading process
           dispatch(setLoading(false));
+          window.location.reload(false);
         }
       );
     } else {
@@ -148,9 +149,9 @@ export function postArticleAPI(payload) {
         console.log("Document written with ID: ", docRef.id);
         // stop spinning image - after loading process
         dispatch(setLoading(false));
+        window.location.reload(false);
       });
     }
-    window.location.reload(false);
   };
 }
 
@@ -158,7 +159,7 @@ export function getArticlesAPI() {
   async function getArticlesFromDB() {
     let articles = [];
 
-    const q = query(collection(db, "articles"), orderBy("description"));
+    const q = query(collection(db, "articles"), orderBy("actor.date"));
     await getDocs(q).then((snapshot) => {
       snapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
@@ -171,13 +172,12 @@ export function getArticlesAPI() {
   }
 
   return (dispatch) => {
-    /*
-
-    */
+    dispatch(setLoading(true));
     getArticlesFromDB().then((articleFromDB) => {
       console.log("articlesFromDB");
       console.log(articleFromDB);
       dispatch(getArticles(articleFromDB));
+      dispatch(setLoading(false));
     });
   };
 }
